@@ -24,7 +24,7 @@ export function useRangePicker(options: RangePickerOptions = {}) {
     value,
     defaultValue,
     onChange,
-    id = 'rangepicker',
+    id: _id = 'rangepicker',
     closeOnSelect = true,
     minLength,
     maxLength,

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 
 export type TimeGranularity = 'hour' | 'minute' | 'second';
 export type HourCycle = 'h12' | 'h24' | 'h23' | 'h11';
@@ -63,12 +63,14 @@ export function useTimePicker(options: TimePickerOptions = {}) {
   const selectedTime = isControlled ? value : internalDate;
 
   // Always ensure activeTime is a valid Date
-  const rawActive = selectedTime instanceof Date && !isNaN(selectedTime.getTime())
-    ? selectedTime
-    : (selectedTime
-        ? new Date(selectedTime as any)
-        : null);
-  const activeTime = (rawActive && !isNaN((rawActive as Date).getTime())) ? rawActive : new Date();
+  const activeTime = useMemo(() => {
+    const raw = selectedTime instanceof Date && !isNaN(selectedTime.getTime())
+      ? selectedTime
+      : (selectedTime
+          ? new Date(selectedTime as any)
+          : null);
+    return (raw && !isNaN((raw as Date).getTime())) ? raw : new Date();
+  }, [selectedTime]);
   const format12 = hourCycle === 'h12' || hourCycle === 'h11';
 
   // ── Segment filled tracking ────────────────────────────────────────────
@@ -223,7 +225,7 @@ export function useTimePicker(options: TimePickerOptions = {}) {
     decrement: () => void,
     min: number,
     max: number,
-    setExact: (val: number) => void,
+    setExact: (_val: number) => void,
     segmentType: 'hour' | 'minute' | 'second',
     pageIncrement?: () => void,
     pageDecrement?: () => void,

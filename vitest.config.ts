@@ -53,9 +53,11 @@ export default defineConfig({
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/**/*.{test,spec}.{ts,tsx}',
+        'src/**/*.stories.{ts,tsx}',
         'src/test-utils/**',
         'src/**/*.css',
-        'src/index.ts',  // Barrel file — no logic to cover
+        'src/index.ts',           // Barrel file — no logic to cover
+        'src/components/index.ts', // Barrel file
       ],
       // Enforce minimum coverage thresholds — CI fails if these drop
       thresholds: {

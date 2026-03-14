@@ -10,7 +10,7 @@ export interface DatePickerOptions extends CalendarStateOptions {
 }
 
 export function useDatePicker(options: DatePickerOptions = {}) {
-  const { id = 'dp', name, closeOnSelect = true, ...calendarOptions } = options;
+  const { id = 'dp', name: _name, closeOnSelect = true, ...calendarOptions } = options;
   const state = useCalendarState(calendarOptions);
 
   const [isOpen, setIsOpen] = useState(false);

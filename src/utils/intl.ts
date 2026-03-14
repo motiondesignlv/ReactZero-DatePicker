@@ -50,7 +50,7 @@ export function getFirstDayOfWeek(locale?: string): number {
     if (weekInfo && typeof weekInfo.firstDay === 'number') {
       return weekInfo.firstDay === 7 ? 0 : weekInfo.firstDay;
     }
-  } catch (e) {
+  } catch {
     //
   }
   return 0; // Fallback to Sunday

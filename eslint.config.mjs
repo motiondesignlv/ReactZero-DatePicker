@@ -17,6 +17,7 @@ import tsParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
@@ -35,19 +36,21 @@ export default [
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
       },
+      globals: {
+        ...globals.browser,
+      },
     },
     settings: {
       react: { version: 'detect' },
     },
     rules: {
       // ── TypeScript ────────────────────────────────────────────────────────
-      '@typescript-eslint/no-explicit-any': 'warn',
+      'no-unused-vars': 'off', // Use @typescript-eslint version instead
+      '@typescript-eslint/no-explicit-any': 'off', // Intl API + data-attr casts need `any`
       '@typescript-eslint/no-unused-vars': ['error', {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
       }],
-      '@typescript-eslint/prefer-nullish-coalescing': 'warn',
-      '@typescript-eslint/prefer-optional-chain': 'warn',
 
       // ── React ─────────────────────────────────────────────────────────────
       'react/prop-types': 'off',           // TypeScript handles this
@@ -80,15 +83,41 @@ export default [
     },
   },
   {
-    // Relax some rules in test files
+    // Relax rules in test files and add test globals
     files: ['src/**/*.{test,spec}.{ts,tsx}', 'src/test-utils/**'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        // Vitest globals (globals: true in vitest.config.ts)
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        vi: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+      },
+    },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-unused-vars': 'off',
       'jsx-a11y/click-events-have-key-events': 'off',
       'no-console': 'off',
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**'],
+    // Relax rules in story files — render() functions use hooks inside Storybook's API
+    files: ['src/**/*.stories.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react/display-name': 'off',
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
+  {
+    ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'storybook-static/**'],
   },
 ];
