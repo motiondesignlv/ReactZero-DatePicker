@@ -89,7 +89,8 @@
     "ci": "npm run typecheck && npm run lint && npm run test:all",
     "size": "size-limit",
     "size:check": "size-limit --limit",
-    "prepublishOnly": "npm run ci && npm run build"
+    "prepublishOnly": "npm run ci && npm run build",
+    "chromatic": "npx chromatic --project-token=***REMOVED***"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

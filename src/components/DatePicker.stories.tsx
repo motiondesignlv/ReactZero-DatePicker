@@ -16,6 +16,7 @@ export const Default: Story = {
   args: { placeholder: 'Select a date...' },
 };
 
+
 export const WithMinMax: Story = {
   name: 'Min / Max Dates',
   args: {
