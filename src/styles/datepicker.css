@@ -1,0 +1,1185 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DatePicker Design System — CSS Custom Properties
+   Override any variable on a parent element to theme.
+
+   Example:
+     .my-picker { --dp-accent: #7c3aed; }
+
+   Or use a built-in theme:
+     <DatePicker theme="dark" density="compact" />
+   ============================================================ */
+
+/* ── Default (Light) Theme ─────────────────────────────────── */
+:root,
+[data-dp-theme="light"] {
+  /* Accent */
+  --dp-accent:          #2563eb;
+  --dp-accent-hover:    #1d4ed8;
+  --dp-accent-fg:       #ffffff;
+  --dp-accent-subtle:   #dbeafe;
+  --dp-accent-ring:     rgba(37, 99, 235, 0.3);
+
+  /* Surfaces */
+  --dp-bg:              #ffffff;
+  --dp-surface:         #f8fafc;
+  --dp-surface-hover:   #f1f5f9;
+
+  /* Borders */
+  --dp-border:          #e2e8f0;
+  --dp-border-strong:   #cbd5e1;
+
+  /* Text */
+  --dp-text:            #0f172a;
+  --dp-text-muted:      #64748b;
+  --dp-text-disabled:   #cbd5e1;
+
+  /* States */
+  --dp-disabled-opacity: 0.35;
+  --dp-today-ring:      var(--dp-accent);
+
+  /* Range */
+  --dp-range-bg:        var(--dp-accent-subtle);
+  --dp-range-edge-bg:   var(--dp-accent);
+  --dp-range-edge-fg:   var(--dp-accent-fg);
+
+  /* Special day dot */
+  --dp-special-dot-size: 0.375rem;
+
+  /* Shape */
+  --dp-radius-xs:       0.25rem;
+  --dp-radius-sm:       0.375rem;
+  --dp-radius-md:       0.5rem;
+  --dp-radius-lg:       0.75rem;
+  --dp-radius-xl:       1rem;
+  --dp-radius-full:     9999px;
+
+  /* Shadow */
+  --dp-shadow-sm:       0 1px 2px rgba(0,0,0,0.05);
+  --dp-shadow:          0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  --dp-shadow-lg:       0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+
+  /* Density — Default */
+  --dp-cell-size:       2.5rem;
+  --dp-cell-radius:     var(--dp-radius-full);
+  --dp-cell-font:       0.875rem;
+  --dp-header-font:     0.875rem;
+  --dp-weekday-font:    0.75rem;
+  --dp-trigger-px:      1rem;
+  --dp-trigger-py:      0.5rem;
+  --dp-trigger-font:    0.875rem;
+  --dp-popover-padding: 1rem;
+  --dp-spin-size:       2.25rem;
+  --dp-spin-font:       1rem;
+  --dp-spin-btn-size:   1.5rem;
+
+  /* Transition */
+  --dp-transition:      150ms ease;
+}
+
+/* ── Dark Theme ──────────────────────────────────────────── */
+[data-dp-theme="dark"] {
+  --dp-accent:          #60a5fa;
+  --dp-accent-hover:    #93c5fd;
+  --dp-accent-fg:       #0f172a;
+  --dp-accent-subtle:   rgba(96, 165, 250, 0.15);
+  --dp-accent-ring:     rgba(96, 165, 250, 0.35);
+
+  --dp-bg:              #1e293b;
+  --dp-surface:         #0f172a;
+  --dp-surface-hover:   #334155;
+
+  --dp-border:          #334155;
+  --dp-border-strong:   #475569;
+
+  --dp-text:            #f1f5f9;
+  --dp-text-muted:      #94a3b8;
+  --dp-text-disabled:   #475569;
+
+  --dp-shadow:          0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3);
+  --dp-range-bg:        rgba(96, 165, 250, 0.15);
+}
+
+/* ── Minimal Theme ───────────────────────────────────────── */
+[data-dp-theme="minimal"] {
+  --dp-accent:          #18181b;
+  --dp-accent-hover:    #3f3f46;
+  --dp-accent-fg:       #fafafa;
+  --dp-accent-subtle:   #f4f4f5;
+  --dp-accent-ring:     rgba(24, 24, 27, 0.15);
+
+  --dp-bg:              #ffffff;
+  --dp-surface:         #fafafa;
+  --dp-surface-hover:   #f4f4f5;
+
+  --dp-border:          #e4e4e7;
+  --dp-border-strong:   #d4d4d8;
+
+  --dp-text:            #18181b;
+  --dp-text-muted:      #71717a;
+  --dp-text-disabled:   #d4d4d8;
+
+  --dp-shadow:          0 1px 4px rgba(0,0,0,0.06);
+  --dp-radius-md:       0.25rem;
+  --dp-radius-lg:       0.375rem;
+  --dp-cell-radius:     var(--dp-radius-xs);
+  --dp-range-bg:        #f4f4f5;
+}
+
+/* ── Ocean Theme ─────────────────────────────────────────── */
+[data-dp-theme="ocean"] {
+  --dp-accent:          #0891b2;
+  --dp-accent-hover:    #0e7490;
+  --dp-accent-fg:       #ffffff;
+  --dp-accent-subtle:   #cffafe;
+  --dp-accent-ring:     rgba(8, 145, 178, 0.3);
+
+  --dp-bg:              #f0fdff;
+  --dp-surface:         #ecfeff;
+  --dp-surface-hover:   #cffafe;
+
+  --dp-border:          #a5f3fc;
+  --dp-border-strong:   #67e8f9;
+
+  --dp-text:            #0c4a6e;
+  --dp-text-muted:      #0e7490;
+  --dp-text-disabled:   #a5f3fc;
+
+  --dp-shadow:          0 4px 16px rgba(8, 145, 178, 0.15);
+  --dp-range-bg:        #cffafe;
+}
+
+/* ── Rose Theme ──────────────────────────────────────────── */
+[data-dp-theme="rose"] {
+  --dp-accent:          #e11d48;
+  --dp-accent-hover:    #be123c;
+  --dp-accent-fg:       #ffffff;
+  --dp-accent-subtle:   #ffe4e6;
+  --dp-accent-ring:     rgba(225, 29, 72, 0.25);
+
+  --dp-bg:              #fff8f8;
+  --dp-surface:         #fff1f2;
+  --dp-surface-hover:   #ffe4e6;
+
+  --dp-border:          #fecdd3;
+  --dp-border-strong:   #fda4af;
+
+  --dp-text:            #4c0519;
+  --dp-text-muted:      #9f1239;
+  --dp-text-disabled:   #fda4af;
+
+  --dp-shadow:          0 4px 16px rgba(225, 29, 72, 0.12);
+  --dp-range-bg:        #ffe4e6;
+}
+
+/* ── Density: Compact ────────────────────────────────────── */
+[data-dp-density="compact"] {
+  --dp-cell-size:       1.875rem;
+  --dp-cell-font:       0.75rem;
+  --dp-weekday-font:    0.6875rem;
+  --dp-trigger-px:      0.75rem;
+  --dp-trigger-py:      0.375rem;
+  --dp-trigger-font:    0.8125rem;
+  --dp-popover-padding: 0.75rem;
+  --dp-spin-size:       2rem;
+  --dp-spin-font:       0.875rem;
+  --dp-spin-btn-size:   1.25rem;
+}
+
+/* ── Density: Comfortable ────────────────────────────────── */
+[data-dp-density="comfortable"] {
+  --dp-cell-size:       3rem;
+  --dp-cell-font:       0.9375rem;
+  --dp-weekday-font:    0.8125rem;
+  --dp-trigger-px:      1.25rem;
+  --dp-trigger-py:      0.75rem;
+  --dp-trigger-font:    1rem;
+  --dp-popover-padding: 1.25rem;
+  --dp-spin-size:       2.75rem;
+  --dp-spin-font:       1.125rem;
+  --dp-spin-btn-size:   1.75rem;
+}
+
+/* ============================================================
+   Semantic Component Styles
+   All use only --dp-* variables. No hardcoded colors.
+   ============================================================ */
+
+/* ── Shared Reset & Base ──────────────────────────────────── */
+.dp-container {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+}
+
+/* ── Trigger Button ───────────────────────────────────────── */
+.dp-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: var(--dp-trigger-py) var(--dp-trigger-px);
+  font-size: var(--dp-trigger-font);
+  background: var(--dp-bg);
+  color: var(--dp-text);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-md);
+  box-shadow: var(--dp-shadow-sm);
+  cursor: pointer;
+  transition: border-color var(--dp-transition), box-shadow var(--dp-transition);
+  white-space: nowrap;
+  outline: none;
+}
+.dp-trigger:hover {
+  border-color: var(--dp-border-strong);
+}
+.dp-trigger:focus-visible {
+  border-color: var(--dp-accent);
+  box-shadow: 0 0 0 3px var(--dp-accent-ring);
+}
+.dp-trigger-placeholder {
+  color: var(--dp-text-muted);
+}
+.dp-trigger-icon {
+  color: var(--dp-text-muted);
+  flex-shrink: 0;
+}
+
+/* ── Input-Group Trigger (combobox style) ─────────────────── */
+.dp-input-group {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+.dp-input {
+  display: inline-block;
+  padding: var(--dp-trigger-py) var(--dp-trigger-px);
+  padding-right: calc(var(--dp-trigger-px) + 1.75rem);
+  font-size: var(--dp-trigger-font);
+  font-family: inherit;
+  background: var(--dp-bg);
+  color: var(--dp-text);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-md);
+  box-shadow: var(--dp-shadow-sm);
+  cursor: pointer;
+  outline: none;
+  min-width: 10rem;
+  transition: border-color var(--dp-transition), box-shadow var(--dp-transition);
+}
+.dp-input::placeholder {
+  color: var(--dp-text-muted);
+}
+.dp-input:hover {
+  border-color: var(--dp-border-strong);
+}
+.dp-input:focus-visible {
+  border-color: var(--dp-accent);
+  box-shadow: 0 0 0 3px var(--dp-accent-ring);
+}
+.dp-trigger-icon-btn {
+  position: absolute;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--dp-text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--dp-radius-sm);
+  transition: color var(--dp-transition);
+}
+.dp-trigger-icon-btn:hover {
+  color: var(--dp-text);
+}
+
+/* Minimal input: underline only */
+.dp-input--minimal {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--dp-border);
+  border-radius: 0;
+  box-shadow: none;
+  padding-left: 0.25rem;
+  padding-right: calc(0.25rem + 1.75rem);
+}
+.dp-input--minimal:hover {
+  border-bottom-color: var(--dp-accent);
+}
+.dp-input--minimal:focus-visible {
+  border-bottom-color: var(--dp-accent);
+  box-shadow: none;
+}
+
+/* Pill input: fully rounded, accent-filled */
+.dp-input--pill {
+  background: var(--dp-accent);
+  color: var(--dp-accent-fg);
+  border-color: var(--dp-accent);
+  border-radius: var(--dp-radius-full);
+  padding-left: calc(var(--dp-trigger-px) * 1.5);
+  padding-right: calc(var(--dp-trigger-px) * 1.5 + 1.75rem);
+}
+.dp-input--pill::placeholder {
+  color: var(--dp-accent-fg);
+  opacity: 0.85;
+}
+.dp-input--pill:hover {
+  background: var(--dp-accent-hover);
+  border-color: var(--dp-accent-hover);
+}
+.dp-input--pill + .dp-trigger-icon-btn {
+  color: var(--dp-accent-fg);
+  opacity: 0.85;
+}
+
+/* Ghost input: invisible until hover */
+.dp-input--ghost {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.dp-input--ghost:hover {
+  background: var(--dp-surface-hover);
+  border-color: var(--dp-border);
+}
+.dp-input--ghost:focus-visible {
+  background: var(--dp-surface);
+  border-color: var(--dp-accent);
+}
+
+/* ── Popover / Dialog ─────────────────────────────────────── */
+.dp-popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 50;
+  padding: var(--dp-popover-padding);
+  background: var(--dp-bg);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-lg);
+  box-shadow: var(--dp-shadow);
+  min-width: max-content;
+}
+
+/* ── Calendar Header ──────────────────────────────────────── */
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.dp-title {
+  font-size: var(--dp-header-font);
+  font-weight: 600;
+  color: var(--dp-text);
+}
+.dp-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--dp-radius-md);
+  color: var(--dp-text-muted);
+  cursor: pointer;
+  transition: background var(--dp-transition), color var(--dp-transition);
+}
+.dp-nav-btn:hover {
+  background: var(--dp-surface-hover);
+  color: var(--dp-text);
+}
+.dp-nav-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--dp-accent-ring);
+}
+
+/* ── Calendar Grid ────────────────────────────────────────── */
+.dp-calendar-grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+.dp-calendar-header-cell {
+  width: var(--dp-cell-size);
+  height: calc(var(--dp-cell-size) * 0.85);
+  text-align: center;
+  font-size: var(--dp-weekday-font);
+  font-weight: 500;
+  color: var(--dp-text-muted);
+  padding-bottom: 0.25rem;
+}
+.dp-calendar-cell {
+  padding: 2px;
+  text-align: center;
+  position: relative;
+}
+.dp-calendar-cell-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dp-cell-size);
+  height: var(--dp-cell-size);
+  margin: auto;
+  border-radius: var(--dp-cell-radius);
+  font-size: var(--dp-cell-font);
+  color: var(--dp-text);
+  cursor: pointer;
+  transition: background var(--dp-transition), color var(--dp-transition), box-shadow var(--dp-transition);
+  position: relative;
+  user-select: none;
+}
+.dp-calendar-cell-inner:hover {
+  background: var(--dp-surface-hover);
+}
+
+/* Today */
+.dp-today .dp-calendar-cell-inner {
+  box-shadow: inset 0 0 0 2px var(--dp-today-ring);
+  font-weight: 600;
+}
+
+/* Selected */
+.dp-selected .dp-calendar-cell-inner {
+  background: var(--dp-accent);
+  color: var(--dp-accent-fg);
+  font-weight: 700;
+}
+.dp-selected .dp-calendar-cell-inner:hover {
+  background: var(--dp-accent-hover);
+}
+
+/* Outside month */
+.dp-outside-month .dp-calendar-cell-inner {
+  color: var(--dp-text-disabled);
+}
+.dp-outside-month .dp-calendar-cell-inner:hover {
+  background: var(--dp-surface);
+}
+
+/* Disabled */
+.dp-disabled .dp-calendar-cell-inner {
+  opacity: var(--dp-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Range */
+.dp-in-range {
+  background: var(--dp-range-bg);
+}
+.dp-in-range .dp-calendar-cell-inner {
+  border-radius: 0;
+}
+.dp-start-range,
+.dp-end-range {
+  background: linear-gradient(
+    to var(--dp-range-dir, right),
+    transparent 50%,
+    var(--dp-range-bg) 50%
+  );
+}
+.dp-start-range .dp-calendar-cell-inner,
+.dp-end-range .dp-calendar-cell-inner {
+  background: var(--dp-accent);
+  color: var(--dp-accent-fg);
+  font-weight: 700;
+}
+.dp-hover-range {
+  background: color-mix(in srgb, var(--dp-range-bg) 60%, transparent);
+}
+
+/* Special day dot */
+.dp-special-dot {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--dp-special-dot-size);
+  height: var(--dp-special-dot-size);
+  border-radius: var(--dp-radius-full);
+}
+
+/* ── Range Picker Inputs ──────────────────────────────────── */
+.dp-range-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dp-range-input {
+  padding: var(--dp-trigger-py) var(--dp-trigger-px);
+  font-size: var(--dp-trigger-font);
+  background: var(--dp-bg);
+  color: var(--dp-text);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-md);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--dp-transition), box-shadow var(--dp-transition);
+  min-width: 7rem;
+}
+.dp-range-input::placeholder {
+  color: var(--dp-text-muted);
+}
+.dp-range-input:hover {
+  border-color: var(--dp-border-strong);
+}
+.dp-range-input:focus {
+  border-color: var(--dp-accent);
+  box-shadow: 0 0 0 3px var(--dp-accent-ring);
+}
+.dp-range-sep {
+  color: var(--dp-text-muted);
+  font-size: 0.875rem;
+}
+
+/* ── Time Picker ──────────────────────────────────────────── */
+.dp-time-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  background: var(--dp-bg);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-lg);
+  box-shadow: var(--dp-shadow-sm);
+}
+.dp-time-picker.dp-disabled {
+  opacity: var(--dp-disabled-opacity);
+  pointer-events: none;
+}
+.dp-spin-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.dp-spin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dp-spin-btn-size);
+  height: var(--dp-spin-btn-size);
+  background: transparent;
+  border: none;
+  border-radius: var(--dp-radius-sm);
+  color: var(--dp-text-muted);
+  cursor: pointer;
+  font-size: 0.6rem;
+  transition: background var(--dp-transition), color var(--dp-transition);
+  line-height: 1;
+}
+.dp-spin-btn:hover {
+  background: var(--dp-surface-hover);
+  color: var(--dp-accent);
+}
+.dp-spin-btn:disabled {
+  opacity: var(--dp-disabled-opacity);
+  cursor: not-allowed;
+}
+.dp-spin-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dp-spin-size);
+  height: var(--dp-spin-size);
+  font-size: var(--dp-spin-font);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--dp-text);
+  background: var(--dp-surface);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-md);
+  cursor: default;
+  outline: none;
+  transition: border-color var(--dp-transition), box-shadow var(--dp-transition);
+}
+.dp-spin-value:focus-visible {
+  border-color: var(--dp-accent);
+  box-shadow: 0 0 0 3px var(--dp-accent-ring);
+}
+.dp-spin-sep {
+  color: var(--dp-text-muted);
+  font-weight: 700;
+  font-size: var(--dp-spin-font);
+  padding: 0 2px;
+  align-self: center;
+  margin-bottom: 2px; /* optical alignment */
+}
+.dp-period-btn {
+  padding: 0.25rem 0.625rem;
+  font-size: calc(var(--dp-spin-font) * 0.85);
+  font-weight: 600;
+  color: var(--dp-text);
+  background: var(--dp-surface);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-md);
+  cursor: pointer;
+  margin-left: 0.25rem;
+  transition: background var(--dp-transition), color var(--dp-transition), border-color var(--dp-transition);
+  outline: none;
+}
+.dp-period-btn:hover {
+  background: var(--dp-accent);
+  color: var(--dp-accent-fg);
+  border-color: var(--dp-accent);
+}
+.dp-period-btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--dp-accent-ring);
+}
+
+/* ── Preset Buttons ───────────────────────────────────────── */
+.dp-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--dp-border);
+}
+.dp-preset-btn {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--dp-text-muted);
+  background: var(--dp-surface);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-md);
+  cursor: pointer;
+  transition: background var(--dp-transition), color var(--dp-transition), border-color var(--dp-transition);
+}
+.dp-preset-btn:hover {
+  background: var(--dp-accent-subtle);
+  color: var(--dp-accent);
+  border-color: var(--dp-accent);
+}
+
+/* ── Range Footer ─────────────────────────────────────────── */
+.dp-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--dp-border);
+}
+.dp-footer-btn {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--dp-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--dp-radius-sm);
+  transition: color var(--dp-transition), background var(--dp-transition);
+}
+.dp-footer-btn:hover {
+  color: var(--dp-text);
+  background: var(--dp-surface-hover);
+}
+.dp-footer-clear {
+  font-size: 0.8125rem;
+  color: var(--dp-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--dp-transition);
+}
+.dp-footer-clear:hover {
+  color: var(--dp-text);
+}
+.dp-footer-apply {
+  padding: 0.375rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--dp-accent-fg);
+  background: var(--dp-accent);
+  border: none;
+  border-radius: var(--dp-radius-md);
+  cursor: pointer;
+  transition: background var(--dp-transition);
+}
+.dp-footer-apply:hover {
+  background: var(--dp-accent-hover);
+}
+.dp-footer-apply:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── DateTime Picker Layout ───────────────────────────────── */
+.dp-datetime-picker {
+  display: inline-flex;
+}
+.dp-datetime-picker.dp-layout-column {
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dp-datetime-picker.dp-layout-row {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* ============================================================
+   Trigger Style Variants
+   ============================================================ */
+
+/* Icon-only: circular button, no label */
+.dp-trigger--icon {
+  width: calc(var(--dp-trigger-py) * 2 + 1.25rem);
+  height: calc(var(--dp-trigger-py) * 2 + 1.25rem);
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--dp-radius-full);
+}
+.dp-trigger--icon .dp-trigger-chevron { display: none; }
+
+/* Minimal: underline only */
+.dp-trigger--minimal {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--dp-border);
+  border-radius: 0;
+  box-shadow: none;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+.dp-trigger--minimal:hover {
+  border-bottom-color: var(--dp-accent);
+  background: transparent;
+}
+.dp-trigger--minimal:focus-visible {
+  border-bottom-color: var(--dp-accent);
+  box-shadow: none;
+  outline: none;
+}
+.dp-trigger--minimal .dp-trigger-chevron { display: none; }
+
+/* Pill: fully rounded, accent-filled */
+.dp-trigger--pill {
+  background: var(--dp-accent);
+  color: var(--dp-accent-fg);
+  border-color: var(--dp-accent);
+  border-radius: var(--dp-radius-full);
+  padding-left: calc(var(--dp-trigger-px) * 1.5);
+  padding-right: calc(var(--dp-trigger-px) * 1.5);
+}
+.dp-trigger--pill:hover {
+  background: var(--dp-accent-hover);
+  border-color: var(--dp-accent-hover);
+}
+.dp-trigger--pill .dp-trigger-placeholder,
+.dp-trigger--pill .dp-trigger-icon { color: var(--dp-accent-fg); opacity: 0.85; }
+.dp-trigger--pill .dp-trigger-chevron { color: var(--dp-accent-fg); opacity: 0.7; }
+
+/* Ghost: invisible until hover */
+.dp-trigger--ghost {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.dp-trigger--ghost:hover {
+  background: var(--dp-surface-hover);
+  border-color: var(--dp-border);
+}
+.dp-trigger--ghost:focus-visible {
+  background: var(--dp-surface);
+  border-color: var(--dp-accent);
+}
+
+/* Trigger icon position */
+.dp-trigger .dp-trigger-icon,
+.dp-trigger .dp-trigger-chevron {
+  display: flex;
+  align-items: center;
+  color: var(--dp-text-muted);
+  flex-shrink: 0;
+}
+.dp-trigger-chevron {
+  margin-left: auto;
+  transition: transform var(--dp-transition);
+}
+[data-dp-open] .dp-trigger-chevron { transform: rotate(180deg); }
+
+/* Custom footer slot */
+.dp-custom-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--dp-border);
+}
+
+/* Time picker clock icon */
+.dp-time-icon {
+  display: flex;
+  align-items: center;
+  color: var(--dp-text-muted);
+  margin-right: 0.25rem;
+}
+
+/* ============================================================
+   FieldWrapper — Accessible form field
+   ============================================================ */
+.dp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.dp-field-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dp-field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--dp-text);
+  cursor: default;
+}
+
+.dp-field-required {
+  color: var(--dp-field-error-color, #ef4444);
+  margin-left: 1px;
+}
+
+.dp-field-label-action {
+  font-size: 0.8125rem;
+  color: var(--dp-accent);
+}
+
+.dp-field-control {
+  display: inline-flex;
+}
+
+.dp-field-hint {
+  font-size: 0.8125rem;
+  color: var(--dp-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Message row (error / success / warning / info) */
+.dp-field-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.45;
+}
+.dp-field-msg-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* Status colours */
+.dp-field-msg--error   { color: #dc2626; }
+.dp-field-msg--success { color: #16a34a; }
+.dp-field-msg--warning { color: #d97706; }
+.dp-field-msg--idle    { color: var(--dp-text-muted); }
+
+/* Error state: apply accent-ring to child picker trigger */
+.dp-field--error .dp-trigger,
+.dp-field--error .dp-range-input {
+  border-color: #dc2626;
+}
+.dp-field--error .dp-trigger:focus-visible,
+.dp-field--error .dp-range-input:focus {
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.2);
+}
+
+/* Success state */
+.dp-field--success .dp-trigger,
+.dp-field--success .dp-range-input {
+  border-color: #16a34a;
+}
+
+/* Warning state */
+.dp-field--warning .dp-trigger,
+.dp-field--warning .dp-range-input {
+  border-color: #d97706;
+}
+
+/* Dark mode FieldWrapper */
+[data-dp-theme="dark"] .dp-field-label { color: var(--dp-text); }
+[data-dp-theme="dark"] .dp-field-hint  { color: var(--dp-text-muted); }
+
+/* ============================================================
+   Extra Built-in Themes
+   ============================================================ */
+
+/* ── Purple / Violet ─────────────────────────────────────── */
+[data-dp-theme="purple"] {
+  --dp-accent:          #7c3aed;
+  --dp-accent-hover:    #6d28d9;
+  --dp-accent-fg:       #ffffff;
+  --dp-accent-subtle:   #ede9fe;
+  --dp-accent-ring:     rgba(124, 58, 237, 0.25);
+  --dp-bg:              #faf5ff;
+  --dp-surface:         #f5f3ff;
+  --dp-surface-hover:   #ede9fe;
+  --dp-border:          #ddd6fe;
+  --dp-border-strong:   #c4b5fd;
+  --dp-text:            #2e1065;
+  --dp-text-muted:      #7c3aed;
+  --dp-text-disabled:   #ddd6fe;
+  --dp-shadow:          0 4px 16px rgba(124, 58, 237, 0.12);
+  --dp-range-bg:        #ede9fe;
+}
+
+/* ── Amber / Warm ────────────────────────────────────────── */
+[data-dp-theme="amber"] {
+  --dp-accent:          #d97706;
+  --dp-accent-hover:    #b45309;
+  --dp-accent-fg:       #ffffff;
+  --dp-accent-subtle:   #fef3c7;
+  --dp-accent-ring:     rgba(217, 119, 6, 0.25);
+  --dp-bg:              #fffbeb;
+  --dp-surface:         #fef9ee;
+  --dp-surface-hover:   #fef3c7;
+  --dp-border:          #fde68a;
+  --dp-border-strong:   #fbbf24;
+  --dp-text:            #451a03;
+  --dp-text-muted:      #92400e;
+  --dp-text-disabled:   #fde68a;
+  --dp-shadow:          0 4px 16px rgba(217, 119, 6, 0.12);
+  --dp-range-bg:        #fef3c7;
+}
+
+/* ── Slate / Corporate ───────────────────────────────────── */
+[data-dp-theme="slate"] {
+  --dp-accent:          #475569;
+  --dp-accent-hover:    #334155;
+  --dp-accent-fg:       #f8fafc;
+  --dp-accent-subtle:   #e2e8f0;
+  --dp-accent-ring:     rgba(71, 85, 105, 0.25);
+  --dp-bg:              #f8fafc;
+  --dp-surface:         #f1f5f9;
+  --dp-surface-hover:   #e2e8f0;
+  --dp-border:          #cbd5e1;
+  --dp-border-strong:   #94a3b8;
+  --dp-text:            #0f172a;
+  --dp-text-muted:      #64748b;
+  --dp-text-disabled:   #cbd5e1;
+  --dp-shadow:          0 2px 8px rgba(0,0,0,0.08);
+  --dp-range-bg:        #e2e8f0;
+  --dp-cell-radius:     var(--dp-radius-sm);
+}
+
+/* ── Glass / Frosted ─────────────────────────────────────── */
+[data-dp-theme="glass"] {
+  --dp-accent:          #6366f1;
+  --dp-accent-hover:    #4f46e5;
+  --dp-accent-fg:       #ffffff;
+  --dp-accent-subtle:   rgba(99, 102, 241, 0.15);
+  --dp-accent-ring:     rgba(99, 102, 241, 0.3);
+  --dp-bg:              rgba(255, 255, 255, 0.7);
+  --dp-surface:         rgba(248, 250, 252, 0.6);
+  --dp-surface-hover:   rgba(241, 245, 249, 0.8);
+  --dp-border:          rgba(203, 213, 225, 0.5);
+  --dp-border-strong:   rgba(148, 163, 184, 0.6);
+  --dp-text:            #1e293b;
+  --dp-text-muted:      #64748b;
+  --dp-text-disabled:   rgba(203, 213, 225, 0.8);
+  --dp-shadow:          0 8px 32px rgba(99, 102, 241, 0.15), 0 1px 4px rgba(0,0,0,0.05);
+  --dp-range-bg:        rgba(99, 102, 241, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+[data-dp-theme="glass"] .dp-trigger,
+[data-dp-theme="glass"] .dp-popover,
+[data-dp-theme="glass"] .dp-time-picker {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── High Contrast (Accessibility) ──────────────────────── */
+[data-dp-theme="hc"] {
+  --dp-accent:          #0000ee;
+  --dp-accent-hover:    #0000cc;
+  --dp-accent-fg:       #ffffff;
+  --dp-accent-subtle:   #e8e8ff;
+  --dp-accent-ring:     rgba(0,0,238,0.4);
+  --dp-bg:              #ffffff;
+  --dp-surface:         #f0f0f0;
+  --dp-surface-hover:   #e0e0e0;
+  --dp-border:          #000000;
+  --dp-border-strong:   #000000;
+  --dp-text:            #000000;
+  --dp-text-muted:      #333333;
+  --dp-text-disabled:   #808080;
+  --dp-disabled-opacity: 0.5;
+  --dp-shadow:          none;
+  --dp-cell-radius:     var(--dp-radius-xs);
+}
+
+/* ============================================================
+   TimePicker — Popover Mode
+   ============================================================ */
+
+/* Positioning wrapper */
+.dp-time-popover-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* The floating panel */
+.dp-time-popover {
+  background: var(--dp-bg);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-lg);
+  box-shadow: var(--dp-shadow);
+  min-width: 14rem;
+  animation: dp-popover-in 120ms ease;
+  overflow: hidden;
+}
+
+@keyframes dp-popover-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Header row */
+.dp-time-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 0.875rem;
+  border-bottom: 1px solid var(--dp-border);
+}
+
+.dp-time-popover-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--dp-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dp-time-popover-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--dp-radius-sm);
+  color: var(--dp-text-muted);
+  cursor: pointer;
+  transition: background var(--dp-transition), color var(--dp-transition);
+}
+.dp-time-popover-close:hover {
+  background: var(--dp-surface-hover);
+  color: var(--dp-text);
+}
+.dp-time-popover-close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--dp-accent-ring);
+}
+
+/* Body — contains the spin controls */
+.dp-time-popover-body {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.25rem;
+}
+
+/* Footer — Clear + Done */
+.dp-time-popover-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 0.875rem;
+  border-top: 1px solid var(--dp-border);
+  background: var(--dp-surface);
+}
+
+/* The time value shown in the trigger button */
+.dp-time-popover-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* Trigger: a clock badge for icon-only popover mode */
+.dp-trigger--icon.dp-trigger {
+  gap: 0;
+}
+
+/* ── TimeInput (compact inline time entry) ─────────────────── */
+.dp-time-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--dp-radius, 0.375rem);
+  border: 1px solid var(--dp-border);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.dp-time-input-segment {
+  width: 3rem;
+  padding: 0.5rem 0;
+  text-align: center;
+  color: var(--dp-text);
+  background: var(--dp-bg);
+  cursor: ns-resize;
+  font-variant-numeric: tabular-nums;
+}
+
+.dp-time-input-segment:hover {
+  background: var(--dp-surface-hover, var(--dp-surface));
+}
+
+.dp-time-input-segment:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--dp-accent);
+}
+
+.dp-time-input-sep {
+  color: var(--dp-text-muted);
+  user-select: none;
+}
+
+.dp-time-input-divider {
+  display: block;
+  width: 1px;
+  height: 1.5rem;
+  background: var(--dp-border);
+}
+
+.dp-time-input-period {
+  width: 3rem;
+  padding: 0.5rem 0;
+  text-align: center;
+  font-weight: 500;
+  color: var(--dp-text);
+  background: var(--dp-surface);
+  border-left: 1px solid var(--dp-border);
+  cursor: ns-resize;
+  font-variant-numeric: tabular-nums;
+}
+
+.dp-time-input-period:hover {
+  background: var(--dp-surface-hover, var(--dp-surface));
+}
+
+.dp-time-input-period:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--dp-accent);
+}

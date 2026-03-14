@@ -1,0 +1,233 @@
+# .github/workflows/ci.yml
+# ─────────────────────────────────────────────────────────────────────────────
+# CI pipeline for the date/time picker library.
+#
+# Jobs run in PARALLEL to minimize wall-clock time:
+#   ┌─ lint-and-typecheck  (~30s)   ─────────────────────────────────────────┐
+#   ├─ unit-and-integration (~90s)  ─────────────────────────────────────────┤
+#   └─ accessibility-audit  (~90s)  ─────────────────────────────────────────┘
+#
+# Triggers:
+#   - Every push to main/develop
+#   - Every pull request targeting main
+#
+# Publishing (separate job on version tags):
+#   - git tag v1.2.3 → push → triggers the publish job
+#
+# Node matrix: test on Node 20 (LTS) and Node 22 (current)
+# This catches Intl/ICU differences between Node versions.
+#
+# The workflow uses concurrency groups to cancel in-progress runs
+# when a new push arrives on the same branch/PR.
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+    tags: ['v*.*.*']
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs on the same branch/PR when a new commit arrives.
+# This avoids wasted compute on outdated runs.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Minimal permissions — principle of least privilege
+permissions:
+  contents: read
+  pull-requests: write  # needed to post coverage comments on PRs
+
+# ─── Job 1: Lint + Typecheck ──────────────────────────────────────────────────
+jobs:
+  lint-and-typecheck:
+    name: Lint & TypeCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript typecheck
+        run: npm run typecheck
+        # npx tsc --noEmit — catches type errors without producing output files
+
+      - name: ESLint
+        run: npm run lint
+        # Catches common React, accessibility, and import errors
+
+# ─── Job 2: Unit + Integration tests ─────────────────────────────────────────
+  test:
+    name: Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # LTS + current. Full-ICU is bundled in Node 20+ by default,
+        # which ensures Intl.Locale.getWeekInfo() works.
+        node-version: [20, 22]
+      fail-fast: false
+      # fail-fast: false means both matrix versions run even if one fails,
+      # giving us visibility into Node-version-specific failures.
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit + integration tests with coverage
+        run: npm run test:coverage
+        env:
+          # Force a consistent timezone for date arithmetic tests
+          TZ: UTC
+          # Use full ICU data for complete Intl support in tests
+          NODE_ICU_DATA: node_modules/full-icu
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        # Only upload coverage from Node 20 to avoid double-counting
+        if: matrix.node-version == 20
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: coverage-node-${{ matrix.node-version }}
+          fail_ci_if_error: false  # Coverage upload failure shouldn't block merge
+
+      - name: Post coverage comment on PR
+        uses: davelosert/vitest-coverage-report-action@v2
+        if: github.event_name == 'pull_request' && matrix.node-version == 20
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          json-summary-path: ./coverage/coverage-summary.json
+
+# ─── Job 3: Accessibility audit ───────────────────────────────────────────────
+  accessibility:
+    name: Accessibility Audit (axe-core)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run axe accessibility tests
+        run: npm run test:a11y
+        env:
+          TZ: UTC
+
+# ─── Job 4: Build verification ────────────────────────────────────────────────
+  build:
+    name: Build verification
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck]  # Only build if types are valid
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build library
+        run: npm run build
+
+      - name: Verify bundle size
+        run: |
+          # Fail the build if the gzipped output exceeds 15 kB
+          BUNDLE_SIZE=$(gzip -c dist/index.js | wc -c)
+          echo "Gzipped bundle size: ${BUNDLE_SIZE} bytes"
+          MAX_SIZE=15360  # 15 kB in bytes
+          if [ "$BUNDLE_SIZE" -gt "$MAX_SIZE" ]; then
+            echo "❌ Bundle size ${BUNDLE_SIZE}B exceeds limit ${MAX_SIZE}B (15 kB)"
+            exit 1
+          else
+            echo "✅ Bundle size ${BUNDLE_SIZE}B is within limit"
+          fi
+
+      - name: Check exports are tree-shakeable
+        run: |
+          # Ensure all named exports are present in the built output
+          node -e "
+            const pkg = require('./dist/index.cjs');
+            const required = ['DatePicker', 'TimePicker', 'DateTimePicker', 'DateRangePicker'];
+            required.forEach(name => {
+              if (!pkg[name]) throw new Error('Missing export: ' + name);
+            });
+            console.log('✅ All required exports present');
+          "
+
+# ─── Job 5: Publish to npm (on version tags only) ─────────────────────────────
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck, test, accessibility, build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    environment: npm-publish  # Requires manual approval in GitHub environments
+
+    permissions:
+      contents: write  # Needed to create GitHub releases
+      id-token: write  # Needed for npm provenance
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node with npm registry
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public
+        # --provenance creates a Sigstore attestation linking this package
+        # to this GitHub Actions run. Consumers can verify the build source.
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          # GitHub auto-generates release notes from merged PRs since last tag
