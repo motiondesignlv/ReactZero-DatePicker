@@ -62,8 +62,11 @@ export function App() {
             <a href="#themes">Themes</a>
             <a href="#usage">Usage</a>
             <a href="#customization">Customize</a>
-            <a href="https://github.com/motiondesignlv/@reactzero/datepicker" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/motiondesignlv/reactzero-datepicker" target="_blank" rel="noopener noreferrer">
               GitHub
+            </a>
+            <a href="https://69b589f74a0ec7ecc0bc217f-swkwfanwje.chromatic.com/" target="_blank" rel="noopener noreferrer">
+              Storybook
             </a>
             <button
               className="dark-toggle"
@@ -85,6 +88,14 @@ export function App() {
             <br />
             WCAG 2.1 AA &middot; 10 themes &middot; {'<'}12 kB gzipped
           </p>
+          <div className="hero-badges">
+            <a href="https://www.npmjs.com/package/@reactzero/datepicker" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/npm/v/@reactzero/datepicker?color=cb3837&logo=npm&label=npm" alt="npm version" /></a>
+            <a href="https://www.npmjs.com/package/@reactzero/datepicker" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/npm/dm/@reactzero/datepicker?color=cb3837" alt="npm downloads" /></a>
+            <a href="https://69b589f74a0ec7ecc0bc217f-swkwfanwje.chromatic.com/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/storybook-live-ff4785?logo=storybook&logoColor=white" alt="Storybook" /></a>
+            <a href="https://www.chromatic.com/builds?appId=69b589f74a0ec7ecc0bc217f" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/chromatic-visual--tests-fc521f?logo=chromatic" alt="Chromatic" /></a>
+            <a href="https://bundlephobia.com/package/@reactzero/datepicker" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/bundlephobia/minzip/@reactzero/datepicker" alt="bundle size" /></a>
+            <a href="https://github.com/motiondesignlv/reactzero-datepicker/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/npm/l/@reactzero/datepicker" alt="license" /></a>
+          </div>
           <div className="hero-install">
             <code>npm install @reactzero/datepicker</code>
             <CopyButton text="npm install @reactzero/datepicker" />
@@ -92,7 +103,7 @@ export function App() {
           <div className="hero-actions">
             <a href="#demos" className="btn btn-primary">Live Demos</a>
             <a
-              href="https://github.com/motiondesignlv/@reactzero/datepicker"
+              href="https://github.com/motiondesignlv/reactzero-datepicker"
               className="btn btn-secondary"
               target="_blank"
               rel="noopener noreferrer"
@@ -498,8 +509,9 @@ function BrandDatePicker(props) {
             </a>
           </p>
           <div className="footer-links">
-            <a href="https://github.com/motiondesignlv/@reactzero/datepicker" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://github.com/motiondesignlv/reactzero-datepicker" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="https://www.npmjs.com/package/@reactzero/datepicker" target="_blank" rel="noopener noreferrer">npm</a>
+            <a href="https://69b589f74a0ec7ecc0bc217f-swkwfanwje.chromatic.com/" target="_blank" rel="noopener noreferrer">Storybook</a>
           </div>
         </div>
       </footer>

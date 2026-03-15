@@ -157,6 +157,20 @@ body {
   border-radius: var(--docs-radius);
   font-family: var(--docs-mono);
   font-size: 0.9rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.hero-badges img {
+  height: 20px;
 }
 
 .hero-actions {
@@ -260,7 +274,7 @@ body {
 /* ── Features Grid ── */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.25rem;
   margin-top: 2.5rem;
 }
@@ -293,7 +307,7 @@ body {
 /* ── Demo Grid ── */
 .demo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 2.5rem;
 }
@@ -329,6 +343,7 @@ body {
   border-radius: 6px;
   display: flex;
   justify-content: center;
+  overflow: auto;
   transition: background 0.25s, border-color 0.25s;
 }
 
@@ -475,12 +490,24 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .hero {
+    padding: 3rem 0 2.5rem;
+  }
+
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   .hero-subtitle {
     font-size: 1rem;
+  }
+
+  .section {
+    padding: 2.5rem 0;
+  }
+
+  .navbar-brand {
+    font-size: 0.95rem;
   }
 
   .navbar-links a:not(:last-of-type) {
@@ -495,6 +522,14 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .demo-card {
+    padding: 1rem;
+  }
+
+  .code-block pre {
+    font-size: 0.78rem;
+  }
+
   .footer-inner {
     flex-direction: column;
     gap: 0.75rem;
@@ -504,5 +539,17 @@ body {
   .hero-actions {
     flex-direction: column;
     align-items: center;
+  }
+
+  .hero-install {
+    font-size: 0.8rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .theme-demo {
+    padding: 1rem;
   }
 }
