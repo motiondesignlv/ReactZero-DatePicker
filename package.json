@@ -28,11 +28,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/motiondesignlv/reactzero-datepicker"
+    "url": "https://github.com/motiondesignlv/ReactZero-DatePicker"
   },
-  "homepage": "https://motiondesignlv.github.io/reactzero-datepicker",
+  "homepage": "https://motiondesignlv.github.io/ReactZero-DatePicker",
   "bugs": {
-    "url": "https://github.com/motiondesignlv/reactzero-datepicker/issues"
+    "url": "https://github.com/motiondesignlv/ReactZero-DatePicker/issues"
   },
   "funding": {
     "type": "github",

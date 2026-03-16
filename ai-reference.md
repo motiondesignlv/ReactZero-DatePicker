@@ -985,4 +985,4 @@ ES2020 target. All browsers supporting React 18:
 
 ---
 
-*Generated for @reactzero/datepicker v0.1.0 — https://github.com/motiondesignlv/reactzero-datepicker*
+*Generated for @reactzero/datepicker v0.1.0 — https://github.com/motiondesignlv/ReactZero-DatePicker*

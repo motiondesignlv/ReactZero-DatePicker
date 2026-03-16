@@ -18,6 +18,14 @@
 
 ---
 
+<p align="center">
+  <a href="https://motiondesignlv.github.io/ReactZero-DatePicker">Live Demo & Docs</a> &bull;
+  <a href="https://69b589f74a0ec7ecc0bc217f-swkwfanwje.chromatic.com/?path=/docs/components-datepicker--docs">Interactive Storybook</a> &bull;
+  <a href="https://github.com/motiondesignlv/ReactZero-DatePicker">GitHub</a>
+</p>
+
+---
+
 ## Why?
 
 Every React datepicker I tried either pulled in a heavy date library (date-fns, moment, dayjs), made styling painful, or both. I wanted something that:
@@ -165,7 +173,7 @@ Control the trigger appearance with the `triggerStyle` prop:
 
 ## AI Reference
 
-Building with AI? Download the [ai-reference.md](https://motiondesignlv.github.io/reactzero-datepicker/ai-reference.md) — a comprehensive single-file reference covering every component, hook, prop, CSS variable, and usage pattern. Feed it to your AI coding tool for accurate `@reactzero/datepicker` code generation.
+Building with AI? Download the [ai-reference.md](https://motiondesignlv.github.io/ReactZero-DatePicker/ai-reference.md) — a comprehensive single-file reference covering every component, hook, prop, CSS variable, and usage pattern. Feed it to your AI coding tool for accurate `@reactzero/datepicker` code generation.
 
 ## Browser Support
 
@@ -176,8 +184,8 @@ Targets ES2020. Supports all browsers that support React 18:
 
 ## Documentation
 
-- [Live Demo & Docs](https://motiondesignlv.github.io/reactzero-datepicker)
-- [Interactive Storybook](https://motiondesignlv.github.io/reactzero-datepicker/storybook)
+- [Live Demo & Docs](https://motiondesignlv.github.io/ReactZero-DatePicker)
+- [Interactive Storybook](https://69b589f74a0ec7ecc0bc217f-swkwfanwje.chromatic.com/?path=/docs/components-datepicker--docs)
 - [AI Reference](./ai-reference.md) — complete API reference for AI-assisted development
 - Run `npm run storybook` for local component demos
 
