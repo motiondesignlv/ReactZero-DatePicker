@@ -90,7 +90,7 @@
     "size": "size-limit",
     "size:check": "size-limit --limit",
     "prepublishOnly": "npm run ci && npm run build",
-    "chromatic": "npx chromatic --project-token=***REMOVED***"
+    "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
