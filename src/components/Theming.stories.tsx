@@ -7,7 +7,7 @@ import { FieldWrapper } from './FieldWrapper';
 
 const meta = {
   title: 'Theming & Customization',
-  parameters: { layout: 'padded' },
+  parameters: {},
 } satisfies Meta;
 
 export default meta;
@@ -27,7 +27,7 @@ const Row = ({ children, gap = '1rem', wrap = true }: { children: React.ReactNod
 
 const Card = ({ children, bg, label }: { children: React.ReactNode; bg?: string; label?: string }) => (
   <div style={{ padding: '1.5rem', borderRadius: '0.75rem', background: bg || 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.07)', minWidth: 200 }}>
-    {label && <p style={{ margin: '0 0 1rem', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.45 }}>{label}</p>}
+    {label && <p style={{ margin: '0 0 1rem', fontSize: '0.8125rem', fontWeight: 600, fontFamily: '"SF Mono", "Fira Code", "JetBrains Mono", ui-monospace, monospace', color: '#64748b', letterSpacing: '0.01em' }}>{label}</p>}
     {children}
   </div>
 );

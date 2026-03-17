@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { within, userEvent, expect, fn } from '@storybook/test';
 import React, { useState } from 'react';
 import { TimePicker } from './TimePicker';
 import { FieldWrapper } from './FieldWrapper';
@@ -7,7 +8,7 @@ import { DatePicker } from './DatePicker';
 const meta = {
   title: 'TimePicker',
   component: TimePicker,
-  parameters: { layout: 'padded' },
+  parameters: {},
   argTypes: {
     mode:         { control: 'radio',  options: ['inline', 'popover'], description: 'Render mode' },
     triggerStyle: { control: 'select', options: ['default', 'icon', 'minimal', 'pill', 'ghost'], description: 'Trigger appearance (popover mode)' },
@@ -26,8 +27,8 @@ const Row = ({ children }: { children: React.ReactNode }) => (
   <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>{children}</div>
 );
 const Card = ({ label, children }: { label: string; children: React.ReactNode }) => (
-  <div style={{ padding: '1.25rem', borderRadius: '0.625rem', background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.07)' }}>
-    <p style={{ margin: '0 0 0.75rem', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.4 }}>{label}</p>
+  <div style={{ padding: '1.5rem', borderRadius: '0.75rem', background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+    <p style={{ margin: '0 0 1rem', fontSize: '0.8125rem', fontWeight: 600, fontFamily: '"SF Mono", "Fira Code", "JetBrains Mono", ui-monospace, monospace', color: '#64748b', letterSpacing: '0.01em' }}>{label}</p>
     {children}
   </div>
 );
@@ -54,7 +55,32 @@ export const InlineVsPopover: Story = {
 /* ── 2. Inline default ────────────────────────────────────── */
 export const Default: Story = {
   name: 'Inline — Default',
-  args: { mode: 'inline', hourCycle: 'h12', granularity: 'minute' },
+  args: { mode: 'inline', hourCycle: 'h12', granularity: 'minute', onChange: fn() },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('Verify spin controls are visible', async () => {
+      await expect(canvas.getByRole('spinbutton', { name: 'Hour' })).toBeInTheDocument();
+      await expect(canvas.getByRole('spinbutton', { name: 'Minute' })).toBeInTheDocument();
+    });
+
+    await step('Increment and decrement hour', async () => {
+      await userEvent.click(canvas.getByLabelText('Increase hour'));
+      await userEvent.click(canvas.getByLabelText('Decrease hour'));
+    });
+
+    await step('Increment minute', async () => {
+      await userEvent.click(canvas.getByLabelText('Increase minute'));
+    });
+
+    await step('Toggle AM/PM', async () => {
+      await userEvent.click(canvas.getByLabelText('period'));
+    });
+
+    await step('Verify onChange was called', async () => {
+      await expect(args.onChange).toHaveBeenCalled();
+    });
+  },
 };
 
 /* ── 3. Inline granularities ──────────────────────────────── */
@@ -79,7 +105,32 @@ export const InlineDisabledSlots: Story = {
 /* ── 5. Popover — default ─────────────────────────────────── */
 export const PopoverDefault: Story = {
   name: 'Popover — Default',
-  args: { mode: 'popover', hourCycle: 'h12', granularity: 'minute', placeholder: 'Select time…' },
+  args: { mode: 'popover', hourCycle: 'h12', granularity: 'minute', placeholder: 'Select time…', onChange: fn() },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('Open the time popover', async () => {
+      const trigger = canvas.getByRole('button', { name: /select time/i });
+      await userEvent.click(trigger);
+      await expect(canvas.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    await step('Increment hour and minute inside popover', async () => {
+      await userEvent.click(canvas.getByLabelText('Increase minute'));
+      await userEvent.click(canvas.getByLabelText('Increase hour'));
+      await expect(args.onChange).toHaveBeenCalled();
+    });
+
+    await step('Click Done to close', async () => {
+      await userEvent.click(canvas.getByText('Done'));
+      await expect(canvas.queryByRole('dialog')).toBeNull();
+    });
+
+    await step('Trigger shows the selected time', async () => {
+      const trigger = canvas.getByRole('button', { expanded: false });
+      await expect(trigger).toBeInTheDocument();
+    });
+  },
 };
 
 /* ── 6. Popover — all trigger styles ────────────────────────── */
@@ -165,7 +216,7 @@ export const PopoverCustomFooter: Story = {
 
 /* ── 10. Compact Date + Time row ─────────────────────────────── */
 export const DateTimeCompactRow: Story = {
-  name: '📅 Compact Date + Time Row',
+  name: 'Compact Date + Time Row',
   render: () => {
     const [date, setDate] = useState<Date | null>(null);
     const [time, setTime] = useState<Date | null>(null);
@@ -191,16 +242,97 @@ export const DateTimeCompactRow: Story = {
 export const PopoverAllThemes: Story = {
   name: 'Popover — All Themes',
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1.5rem' }}>
       {(['light', 'dark', 'ocean', 'rose', 'purple', 'amber', 'slate', 'glass'] as const).map(theme => (
         <Card key={theme} label={theme}>
-          <div style={theme === 'dark' ? { background: '#1e293b', padding: '0.75rem', borderRadius: '0.5rem' } : {}}>
+          <div style={theme === 'dark'
+            ? { background: '#1e293b', padding: '1rem', borderRadius: '0.5rem' }
+            : { padding: '0.25rem 0' }}>
             <TimePicker mode="popover" theme={theme} placeholder="Select time…" />
           </div>
         </Card>
       ))}
     </div>
   ),
+};
+
+/* ── A11y: Keyboard Spinbutton ────────────────────────────────── */
+export const KeyboardSpinbutton: Story = {
+  name: 'A11y — Keyboard Spinbutton',
+  args: { mode: 'inline', hourCycle: 'h12', granularity: 'minute', onChange: fn() },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('Verify spinbutton roles and ARIA attributes', async () => {
+      const hourSpin = canvas.getByRole('spinbutton', { name: 'Hour' });
+      await expect(hourSpin).toHaveAttribute('aria-valuemin');
+      await expect(hourSpin).toHaveAttribute('aria-valuemax');
+      await expect(hourSpin).toHaveAttribute('aria-valuenow');
+      await expect(hourSpin).toHaveAttribute('aria-valuetext');
+
+      const minuteSpin = canvas.getByRole('spinbutton', { name: 'Minute' });
+      await expect(minuteSpin).toHaveAttribute('aria-valuemin', '0');
+      await expect(minuteSpin).toHaveAttribute('aria-valuemax', '59');
+    });
+
+    await step('Fill minute segment so onChange can fire', async () => {
+      await userEvent.click(canvas.getByLabelText('Increase minute'));
+    });
+
+    await step('Focus hour and use ArrowUp/ArrowDown', async () => {
+      const hourSpin = canvas.getByRole('spinbutton', { name: 'Hour' });
+      hourSpin.focus();
+      await expect(hourSpin).toHaveFocus();
+      await userEvent.keyboard('{ArrowUp}');
+      await expect(args.onChange).toHaveBeenCalled();
+    });
+
+    await step('Tab to minute spinbutton', async () => {
+      await userEvent.tab();
+      const minuteSpin = canvas.getByRole('spinbutton', { name: 'Minute' });
+      await expect(minuteSpin).toHaveFocus();
+    });
+
+    await step('Verify aria-valuetext includes AM/PM context', async () => {
+      const hourSpin = canvas.getByRole('spinbutton', { name: 'Hour' });
+      const valueText = hourSpin.getAttribute('aria-valuetext')!;
+      await expect(valueText).toMatch(/AM|PM/);
+    });
+  },
+};
+
+/* ── A11y: Popover Keyboard ──────────────────────────────────── */
+export const PopoverKeyboard: Story = {
+  name: 'A11y — Popover Keyboard',
+  args: { mode: 'popover', hourCycle: 'h12', granularity: 'minute', placeholder: 'Select time…', onChange: fn() },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('Verify trigger ARIA attributes', async () => {
+      const trigger = canvas.getByRole('button', { name: /select time/i });
+      await expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    await step('Open via click and verify dialog semantics', async () => {
+      await userEvent.click(canvas.getByRole('button', { name: /select time/i }));
+      const dialog = canvas.getByRole('dialog');
+      await expect(dialog).toHaveAttribute('aria-label', 'Time picker');
+      await expect(canvas.getByLabelText('Close time picker')).toBeInTheDocument();
+    });
+
+    await step('Verify trigger updated to aria-expanded="true"', async () => {
+      const trigger = canvas.getByRole('button', { expanded: true });
+      await expect(trigger).toBeInTheDocument();
+    });
+
+    await step('Escape closes popover', async () => {
+      await userEvent.keyboard('{Escape}');
+      await expect(canvas.queryByRole('dialog')).toBeNull();
+      const trigger = canvas.getByRole('button', { name: /select time/i });
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+  },
 };
 
 /* ── 12. Blocked Times ───────────────────────────────────────── */
