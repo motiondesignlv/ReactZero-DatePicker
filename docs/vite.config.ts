@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: '/ReactZero-DatePicker/',
   resolve: {
     alias: [
       { find: '@reactzero/datepicker/styles', replacement: path.resolve(__dirname, '../src/styles/datepicker.css') },
