@@ -288,8 +288,8 @@ body {
 }
 
 .feature-icon {
-  font-size: 1.75rem;
   margin-bottom: 0.75rem;
+  color: var(--docs-accent);
 }
 
 .feature-card h3 {
@@ -343,7 +343,7 @@ body {
   border-radius: 6px;
   display: flex;
   justify-content: center;
-  overflow: auto;
+  overflow: visible;
   transition: background 0.25s, border-color 0.25s;
 }
 

@@ -3,10 +3,22 @@ import {
   DatePicker,
   TimePicker,
   DateRangePicker,
+  DateTimePicker,
+  FieldWrapper,
   type DpTheme,
   type DateRange,
 } from '@reactzero/datepicker';
 import '@reactzero/datepicker/styles';
+import {
+  PackageOpen,
+  Zap,
+  Accessibility,
+  Palette,
+  Globe,
+  LayoutGrid,
+  Sun,
+  Moon,
+} from 'lucide-react';
 
 const ALL_THEMES: string[] = [
   'light', 'dark', 'minimal', 'ocean', 'rose',
@@ -47,6 +59,7 @@ function CodeBlock({ code, lang = 'tsx' }: { code: string; lang?: string }) {
 export function App() {
   const [theme, setTheme] = useState<DpTheme>('light');
   const [date, setDate] = useState<Date | null>(null);
+  const [dateTime, setDateTime] = useState<Date | null>(null);
   const [range, setRange] = useState<DateRange>({ start: null, end: null });
   const [darkMode, setDarkMode] = useState(false);
 
@@ -73,7 +86,7 @@ export function App() {
               onClick={() => setDarkMode(!darkMode)}
               aria-label="Toggle dark mode"
             >
-              {darkMode ? '\u2600' : '\u263E'}
+              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
             </button>
           </div>
         </div>
@@ -123,12 +136,12 @@ export function App() {
           <h2 className="section-title">Features</h2>
           <div className="features-grid">
             {[
-              { icon: '0', title: 'Zero Dependencies', desc: 'No third-party runtime dependencies. Just React.' },
-              { icon: '\u26A1', title: 'Tiny Bundle', desc: 'Under 12 kB gzipped (JS + CSS). Tree-shakeable ESM.' },
-              { icon: '\u267F', title: 'Accessible', desc: 'WCAG 2.1 AA compliant. Full keyboard navigation, ARIA patterns, screen reader tested.' },
-              { icon: '\uD83C\uDFA8', title: '10 Themes', desc: 'Light, dark, minimal, ocean, rose, purple, amber, slate, glass, and high-contrast.' },
-              { icon: '\uD83C\uDF0D', title: 'i18n Ready', desc: 'Built on Intl.DateTimeFormat. RTL support, locale-aware formatting.' },
-              { icon: '\uD83E\uDDE9', title: '4 Variants', desc: 'DatePicker, TimePicker, DateRangePicker, and DateTimePicker.' },
+              { icon: <PackageOpen size={28} />, title: 'Zero Dependencies', desc: 'No third-party runtime dependencies. Just React.' },
+              { icon: <Zap size={28} />, title: 'Tiny Bundle', desc: 'Under 12 kB gzipped (JS + CSS). Tree-shakeable ESM.' },
+              { icon: <Accessibility size={28} />, title: 'Accessible', desc: 'WCAG 2.1 AA compliant. Full keyboard navigation, ARIA patterns, screen reader tested.' },
+              { icon: <Palette size={28} />, title: '10 Themes', desc: 'Light, dark, minimal, ocean, rose, purple, amber, slate, glass, and high-contrast.' },
+              { icon: <Globe size={28} />, title: 'i18n Ready', desc: 'Built on Intl.DateTimeFormat. RTL support, locale-aware formatting.' },
+              { icon: <LayoutGrid size={28} />, title: '5 Components', desc: 'DatePicker, TimePicker, DateRangePicker, DateTimePicker, and TimeInput.' },
             ].map((f) => (
               <div key={f.title} className="feature-card">
                 <div className="feature-icon">{f.icon}</div>
@@ -216,6 +229,63 @@ export function App() {
               </div>
               <div className="demo-value">
                 Range: {range.start ? range.start.toLocaleDateString() : '...'} — {range.end ? range.end.toLocaleDateString() : '...'}
+              </div>
+            </div>
+
+            {/* DateTimePicker */}
+            <div className="demo-card">
+              <h3>DateTimePicker</h3>
+              <p>Combined date and time in one component.</p>
+              <div className={`demo-preview ${
+                DARK_THEMES.has(theme) && !darkMode ? 'demo-preview--dark' :
+                !DARK_THEMES.has(theme) && darkMode ? 'demo-preview--light' : ''
+              }`}>
+                <DateTimePicker
+                  id="demo-datetime"
+                  theme={theme}
+                  value={dateTime}
+                  onChange={setDateTime}
+                  layout="column"
+                  placeholder="Pick date & time"
+                />
+              </div>
+              <div className="demo-value">
+                Selected: {dateTime ? dateTime.toLocaleString() : 'none'}
+              </div>
+            </div>
+
+            {/* TimePicker Popover */}
+            <div className="demo-card">
+              <h3>TimePicker (Popover)</h3>
+              <p>Time picker in popover mode with trigger button.</p>
+              <div className={`demo-preview ${
+                DARK_THEMES.has(theme) && !darkMode ? 'demo-preview--dark' :
+                !DARK_THEMES.has(theme) && darkMode ? 'demo-preview--light' : ''
+              }`}>
+                <TimePicker
+                  id="demo-time-popover"
+                  theme={theme as string}
+                  mode="popover"
+                  placeholder="Set time"
+                />
+              </div>
+            </div>
+
+            {/* FieldWrapper */}
+            <div className="demo-card">
+              <h3>FieldWrapper</h3>
+              <p>Form field with label, hint, and error states.</p>
+              <div className={`demo-preview ${
+                DARK_THEMES.has(theme) && !darkMode ? 'demo-preview--dark' :
+                !DARK_THEMES.has(theme) && darkMode ? 'demo-preview--light' : ''
+              }`}>
+                <FieldWrapper
+                  label="Departure Date"
+                  hint="Select your travel date"
+                  required
+                >
+                  <DatePicker id="demo-field" theme={theme} placeholder="Choose date" />
+                </FieldWrapper>
               </div>
             </div>
           </div>
